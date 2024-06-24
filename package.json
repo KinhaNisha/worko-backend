@@ -1,0 +1,26 @@
+{
+  "name": "worko",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "NODE_ENV=test jest --coverage --detectOpenHandles"
+  },
+  "keywords": [],
+  "author": "Nisha",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jsonwebtoken": "^9.0.2",
+    "supertest": "^7.0.0"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "joi": "^17.13.3",
+    "module-alias": "^2.2.3",
+    "mongoose": "^8.4.3"
+  }
+}
