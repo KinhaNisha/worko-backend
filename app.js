@@ -1,43 +1,38 @@
-require('module-alias/register');
 const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const authRoutes = require('@routes/authRoutes');
-const userRoutes = require('@routes/userRoutes');
+const dotenv = require('dotenv');
+const connectDB = require('./config/dbConfig');
+const userRoutes = require('./routes/userRoutes');
+const tempAuthRoutes = require('./routes/authRoutes'); // Import temp auth routes
+const authenticateToken = require('./middlewares/authMiddleware');
 
+dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(bodyParser.json());
+// Connect to Database
+connectDB();
 
-// Routes
-app.use('/temp-auth', authRoutes);
-app.use('/worko', userRoutes);
+// Middleware to parse JSON bodies
+app.use(express.json());
 
-// Database connection
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.DB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false
-    });
-    console.log('MongoDB connected successfully');
-  } catch (error) {
-    console.error('MongoDB connection failed', error);
-    process.exit(1);
-  }
-};
+// Temp Auth Routes
+app.use('/temp-auth', tempAuthRoutes);
 
-// Only start the server if not in test environment
-if (process.env.NODE_ENV !== 'test') {
-  connectDB().then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
-  });
-}
+// User Routes
+app.use('/worko', authenticateToken, userRoutes);
 
-module.exports = app;
+// Basic Route to check if server is running
+app.get('/', (req, res) => {
+  res.send('Worko API is running...');
+});
+
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

@@ -12,6 +12,7 @@
   "description": "",
   "devDependencies": {
     "jest": "^29.7.0",
+    "jest-module-name-mapper": "^0.1.5",
     "jsonwebtoken": "^9.0.2",
     "supertest": "^7.0.0"
   },

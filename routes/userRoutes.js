@@ -6,7 +6,7 @@ const { validateUser } = require('../dtos/userDto');
 
 const router = express.Router();
 
-router.get('/user', authenticateToken, userController.getAllUsers);
+router.get('/users', authenticateToken, userController.getAllUsers);
 router.get('/user/:userId', authenticateToken, userController.getUserById);
 router.post('/user', authenticateToken, validate(validateUser), userController.createUser);
 router.put('/user/:userId', authenticateToken, validate(validateUser), userController.updateUser);

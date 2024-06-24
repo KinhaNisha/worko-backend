@@ -1,28 +1,26 @@
 const express = require('express');
-const router = express.Router();
-const User = require('@models/User'); // Assuming you have a User model
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const dotenv = require('dotenv');
+const User = require('../models/userModel'); // Assuming your user model is in models/userModel
+
+dotenv.config();
+
+const router = express.Router();
 
 router.post('/create-user-and-token', async (req, res) => {
   try {
-    const { email, name, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const { email, name, age, city, zipCode } = req.body;
+    
+    // Create new user
+    const user = new User({ email, name, age, city, zipCode });
+    await user.save();
 
-    const newUser = new User({
-      email,
-      name,
-      password: hashedPassword
-    });
+    // Generate token
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    await newUser.save();
-
-    const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-    res.status(201).json({ token });
+    res.json({ user, token });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: error.message });
   }
 });
 
