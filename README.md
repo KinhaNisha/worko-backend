@@ -17,7 +17,7 @@ Ensure you have Node.js and npm installed.
 
     ```bash
     git clone [https://github.com/KinhaNisha/worko-backend.git]
-    cd your-repository
+    cd worko-backend
     ```
 
 2. Install the dependencies:
