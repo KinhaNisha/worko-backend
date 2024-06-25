@@ -109,34 +109,3 @@ Ensure you have Node.js and npm installed.
 
 This will run the tests and generate a coverage report in the `coverage` directory.
 
-### Example Test Files
-
-#### `authController.test.js`
-
-Ensure your test looks like this:
-
-```javascript
-// src/tests/authController.test.js
-
-const request = require('supertest');
-const app = require('../app');
-const jwt = require('jsonwebtoken');
-
-describe('Auth Controller', () => {
-  it('should create a user and return a token', async () => {
-    const response = await request(app)
-      .post('/temp-auth/create-user-and-token')
-      .send({
-        email: 'test.user@example.com',
-        name: 'Test User',
-        age: 30,
-        city: 'Test City',
-        zipCode: '12345',
-        password: 'password123'
-      });
-
-    expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty('user');
-    expect(response.body).toHaveProperty('token');
-  });
-});

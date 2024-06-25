@@ -3,11 +3,11 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/dbConfig');
 const userRoutes = require('./routes/userRoutes');
 const tempAuthRoutes = require('./routes/authRoutes'); // Import temp auth routes
-const authenticateToken = require('./middlewares/authMiddleware');
+// const authenticateToken = require('./middlewares/authMiddleware');
 
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // Connect to Database
 connectDB();
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use('/temp-auth', tempAuthRoutes);
 
 // User Routes
-app.use('/worko', authenticateToken, userRoutes);
+app.use('/worko', userRoutes);
 
 // Basic Route to check if server is running
 app.get('/', (req, res) => {
@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  // console.error(err.stack);
   res.status(500).send('Something broke!');
 });
 
@@ -36,3 +36,5 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+module.exports = app;
