@@ -35,6 +35,7 @@ afterAll(async () => {
 });
 
 describe('User API Routes', () => {
+
   it('POST /worko/user should create a new user and return a token', async () => {
     const res = await request(app)
       .post('/worko/user')
@@ -71,5 +72,24 @@ describe('User API Routes', () => {
 
     expect(res.body.email).toBe(sampleUser.email);
   });
-  
+
+  it('PUT /worko/user/:userId should update user by ID', async () => {
+    const updatedData = { name: 'Updated User', age: 30 };
+  });
+
+  it('PATCH /worko/user/:userId should update user by ID', async () => {
+    const updatedData = { city: 'Updated City' };
+  });
+
+  it('DELETE /worko/user/:userId should delete user by ID', async () => {
+    const user = await User.findOne({ email: sampleUser.email });
+
+    const res = await request(app)
+      .delete(`/worko/user/${user._id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+
+    expect(res.body.isDeleted).toBe(true);
+  });
+
 });
