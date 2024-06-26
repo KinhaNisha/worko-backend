@@ -34,7 +34,7 @@ Ensure you have Node.js and npm installed.
     npm start
     ```
 
-2. The server will be running on `http://localhost:3000`.
+2. The server will be running on `http://localhost:3002`.
 
 ### API Endpoints
 
