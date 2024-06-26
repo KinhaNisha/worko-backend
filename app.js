@@ -2,21 +2,16 @@ const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/dbConfig');
 const userRoutes = require('./routes/userRoutes');
-const tempAuthRoutes = require('./routes/authRoutes'); // Import temp auth routes
-// const authenticateToken = require('./middlewares/authMiddleware');
 
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 
 // Connect to Database
 connectDB();
 
 // Middleware to parse JSON bodies
 app.use(express.json());
-
-// Temp Auth Routes
-app.use('/temp-auth', tempAuthRoutes);
 
 // User Routes
 app.use('/worko', userRoutes);
