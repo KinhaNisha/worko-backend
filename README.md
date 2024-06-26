@@ -16,7 +16,7 @@ Ensure you have Node.js and npm installed.
 1. Clone the repository:
 
     ```bash
-    git clone [https://github.com/KinhaNisha/worko-backend.git]
+    git clone https://github.com/KinhaNisha/worko-backend.git
     cd worko-backend
     ```
 
@@ -40,18 +40,17 @@ Ensure you have Node.js and npm installed.
 
 #### Create User and Generate Token
 
-- **URL:** `/temp-auth/create-user-and-token`
+- **URL:** `/worko/user`
 - **Method:** `POST`
 - **Body:**
 
     ```json
     {
-      "email": "test.user@example.com",
-      "name": "Test User",
-      "age": 30,
-      "city": "Test City",
-      "zipCode": "12345",
-      "password": "password123"
+        "email": "john.doe@example.com",
+        "name": "John Doe",
+        "age": 30,
+        "city": "New York",
+        "zipCode": "10001"
     }
     ```
 
@@ -73,9 +72,31 @@ Ensure you have Node.js and npm installed.
     }
     ```
 
+#### Get All Users
+
+- **URL:** `/worko/users`
+- **Method:** `GET`
+- **Headers:**
+  - `Authorization: Bearer {token}`
+
+- **Response:**
+
+    ```json
+    [
+    {
+        "email": "john.doe@example.com",
+        "name": "John Doe",
+        "age": 30,
+        "city": "New York",
+        "zipCode": "10001",
+        "_id": "667861ae28abdd2a43fed91f"
+    }
+    ]
+    ```
+
 #### Get User Details
 
-- **URL:** `/worko/user/{id}`
+- **URL:** `/worko/user/{userId}`
 - **Method:** `GET`
 - **Headers:**
   - `Authorization: Bearer {token}`
@@ -84,12 +105,93 @@ Ensure you have Node.js and npm installed.
 
     ```json
     {
-      "email": "test.user@example.com",
-      "name": "Test User",
-      "age": 30,
-      "city": "Test City",
-      "zipCode": "12345",
-      "_id": "667861ae28abdd2a43fed91f"
+        "email": "john.doe@example.com",
+        "name": "John Doe",
+        "age": 30,
+        "city": "New York",
+        "zipCode": "10001",
+        "_id": "667861ae28abdd2a43fed91f"
+    }
+    ```
+
+#### Update User
+
+- **URL:** `/worko/user/{userId}`
+- **Method:** `PUT`
+- **Headers:**
+  - `Authorization: Bearer {token}`
+- **Body:**
+
+    ```json
+    {
+        "name": "Updated User",
+        "age": 30
+    }
+    ```
+
+- **Response:**
+
+    ```json
+    {
+        "email": "john.doe@example.com",
+        "name": "Updated User",
+        "age": 30,
+        "city": "New York",
+        "zipCode": "10001",
+        "isDeleted": false,
+        "_id": "667861ae28abdd2a43fed91f",
+        "__v": 0
+    }
+    ```
+
+#### Partial Update User
+
+- **URL:** `/worko/user/{userId}`
+- **Method:** `PATCH`
+- **Headers:**
+  - `Authorization: Bearer {token}`
+- **Body:**
+
+    ```json
+    {
+        "city": "Updated City"
+    }
+    ```
+
+- **Response:**
+
+    ```json
+    {
+        "email": "john.doe@example.com",
+        "name": "John Doe",
+        "age": 30,
+        "city": "Updated City",
+        "zipCode": "10001",
+        "isDeleted": false,
+        "_id": "667861ae28abdd2a43fed91f",
+        "__v": 0
+    }
+    ```
+
+#### Delete User
+
+- **URL:** `/worko/user/{userId}`
+- **Method:** `DELETE`
+- **Headers:**
+  - `Authorization: Bearer {token}`
+
+- **Response:**
+
+    ```json
+    {
+        "email": "john.doe@example.com",
+        "name": "John Doe",
+        "age": 30,
+        "city": "New York",
+        "zipCode": "10001",
+        "isDeleted": true,
+        "_id": "667861ae28abdd2a43fed91f",
+        "__v": 0
     }
     ```
 
@@ -109,3 +211,4 @@ Ensure you have Node.js and npm installed.
 
 This will run the tests and generate a coverage report in the `coverage` directory.
 
+---
